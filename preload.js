@@ -11,17 +11,22 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   setTimeout(() => {
-    icons.forEach((icon) => {
-      const node = document.createElement('div');
-      const img = document.createElement('img');
-      img.src = icon.url;
-      const text = document.createElement('span');
-      text.innerText = icon.name;
-      node.appendChild(img);
-      node.appendChild(text);
-      document.getElementById('icons').appendChild(node);
-    });
+    renderIcons(icons);
   }, 1000);
+
+  const input = document.getElementById('input');
+  const button = document.getElementById('button');
+
+  input.addEventListener('keyup', (e) => {
+    if (e.code !== 'Enter') return;
+    handleSearch(input.value);
+    input.value = '';
+  });
+
+  button.addEventListener('click', () => {
+    handleSearch(input.value);
+    input.value = '';
+  });
 });
 
 function searchImages(directory, folder) {
@@ -59,4 +64,30 @@ function getImage(location) {
     name = name.trim();
     icons.push({ url: fileLocation, name });
   });
+}
+
+function renderIcons(icons) {
+  const section = document.getElementById('icons');
+  section.innerHTML = '';
+  icons.forEach((icon) => {
+    const node = document.createElement('div');
+    node.setAttribute('data-name', icon.name);
+    const img = document.createElement('img');
+    img.src = icon.url;
+    node.appendChild(img);
+    section.appendChild(node);
+    node.addEventListener('click', (e) => {
+      console.log(e.currentTarget.getAttribute('data-name'));
+    });
+  });
+}
+
+function handleSearch(input) {
+  const search = [];
+  icons.forEach((icon) => {
+    if (icon.name.includes(input)) {
+      search.push(icon);
+    }
+  });
+  renderIcons(search);
 }
