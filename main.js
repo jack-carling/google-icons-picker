@@ -1,26 +1,77 @@
-const { app, BrowserWindow } = require('electron');
+const { app, Tray, BrowserWindow } = require('electron');
 const path = require('path');
 
-const createWindow = () => {
-  const win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-    },
-  });
+let tray = undefined;
+let window = undefined;
 
-  win.loadFile('index.html');
-};
+app.dock.hide();
 
-app.whenReady().then(() => {
+app.on('ready', () => {
+  createTray();
   createWindow();
-
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
-  });
 });
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit();
+  app.quit();
 });
+
+function createTray() {
+  tray = new Tray('icon.png');
+  tray.on('right-click', toggleWindow);
+  tray.on('double-click', toggleWindow);
+  tray.on('click', (event) => {
+    toggleWindow();
+
+    if (window.isVisible() && process.defaultApp && event.metaKey) {
+      window.openDevTools({ mode: 'detach' });
+    }
+  });
+}
+
+function getWindowPosition() {
+  const windowBounds = window.getBounds();
+  const trayBounds = tray.getBounds();
+
+  const x = Math.round(trayBounds.x + trayBounds.width / 2 - windowBounds.width / 2);
+  const y = Math.round(trayBounds.y + trayBounds.height + 4);
+
+  return { x, y };
+}
+
+function createWindow() {
+  window = new BrowserWindow({
+    width: 300,
+    height: 450,
+    show: false,
+    frame: false,
+    fullscreenable: false,
+    resizable: false,
+    transparent: true,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      backgroundThrottling: false,
+    },
+  });
+  window.loadFile('index.html');
+
+  window.on('blur', () => {
+    if (!window.webContents.isDevToolsOpened()) {
+      window.hide();
+    }
+  });
+}
+
+function toggleWindow() {
+  if (window.isVisible()) {
+    window.hide();
+  } else {
+    showWindow();
+  }
+}
+
+function showWindow() {
+  const position = getWindowPosition();
+  window.setPosition(position.x, position.y, false);
+  window.show();
+  window.focus();
+}
