@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const images = [];
+const icons = [];
 
 window.addEventListener('DOMContentLoaded', () => {
   const directory = path.join(__dirname, 'assets');
@@ -11,13 +11,15 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   setTimeout(() => {
-    images.forEach((image) => {
-      const node = document.createElement('img');
-      node.src = image.url;
+    icons.forEach((icon) => {
+      const node = document.createElement('div');
+      const img = document.createElement('img');
+      img.src = icon.url;
       const text = document.createElement('span');
-      text.innerText = image.name;
+      text.innerText = icon.name;
+      node.appendChild(img);
+      node.appendChild(text);
       document.getElementById('icons').appendChild(node);
-      document.getElementById('icons').appendChild(text);
     });
   }, 1000);
 });
@@ -55,6 +57,6 @@ function getImage(location) {
     name = name.replace('baseline', '');
     name = name.replaceAll('_', ' ');
     name = name.trim();
-    images.push({ url: fileLocation, name });
+    icons.push({ url: fileLocation, name });
   });
 }
