@@ -67,8 +67,10 @@ function getImage(location) {
 }
 
 function renderIcons(icons) {
+  const text = document.getElementById('search-text');
   const section = document.getElementById('icons');
   section.innerHTML = '';
+  text.innerText = `${icons.length} icons found`;
   icons.forEach((icon) => {
     const node = document.createElement('div');
     node.setAttribute('data-name', icon.name);
