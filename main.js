@@ -16,7 +16,7 @@ app.on('window-all-closed', () => {
 });
 
 function createTray() {
-  tray = new Tray('icon.png');
+  tray = new Tray(path.join(__dirname, 'icon.png'));
   tray.on('right-click', toggleWindow);
   tray.on('double-click', toggleWindow);
   tray.on('click', (event) => {
@@ -52,7 +52,7 @@ function createWindow() {
       backgroundThrottling: false,
     },
   });
-  window.loadFile('index.html');
+  window.loadFile(path.join(__dirname, 'index.html'));
 
   window.on('blur', () => {
     if (!window.webContents.isDevToolsOpened()) {
