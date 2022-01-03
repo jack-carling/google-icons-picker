@@ -15,7 +15,8 @@ window.addEventListener('DOMContentLoaded', () => {
   }, 1000);
 
   const input = document.getElementById('input');
-  const button = document.getElementById('button');
+  const searchButton = document.getElementById('search-button');
+  const settingsButton = document.getElementById('settings-button');
 
   input.addEventListener('keyup', (e) => {
     if (e.code !== 'Enter') return;
@@ -23,9 +24,13 @@ window.addEventListener('DOMContentLoaded', () => {
     input.value = '';
   });
 
-  button.addEventListener('click', () => {
+  searchButton.addEventListener('click', () => {
     handleSearch(input.value);
     input.value = '';
+  });
+
+  settingsButton.addEventListener('click', () => {
+    showSettings();
   });
 });
 
@@ -66,7 +71,7 @@ function getImage(location) {
 }
 
 function renderIcons(icons) {
-  const text = document.getElementById('search-text');
+  const text = document.getElementById('info-text');
   const section = document.getElementById('icons');
   section.innerHTML = '';
   text.innerText = `${icons.length} icons found`;
@@ -89,6 +94,7 @@ function renderIcons(icons) {
 }
 
 function handleSearch(input) {
+  showSearch();
   const search = [];
   icons.forEach((icon) => {
     if (icon.name.includes(input)) {
@@ -103,4 +109,20 @@ function renderBanner() {
   banner.classList.remove('fade');
   void banner.offsetWidth; // Required to restart a CSS animation
   banner.classList.add('fade');
+}
+
+function showSettings() {
+  const text = document.getElementById('info-text');
+  text.innerText = 'Settings';
+  const iconsSection = document.getElementById('icons');
+  const settingsSection = document.getElementById('settings');
+  settingsSection.classList.remove('hide');
+  iconsSection.classList.add('hide');
+}
+
+function showSearch() {
+  const iconsSection = document.getElementById('icons');
+  const settingsSection = document.getElementById('settings');
+  settingsSection.classList.add('hide');
+  iconsSection.classList.remove('hide');
 }

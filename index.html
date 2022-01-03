@@ -10,13 +10,24 @@
   <body>
     <header>
       <input type="text" name="" id="input" />
-      <button id="button">Search</button>
+      <button id="search-button">
+        <img src="assets/action/search/materialicons/48dp/2x/baseline_search_black_48dp.png" alt="" />
+      </button>
+      <button id="settings-button">
+        <img src="assets/action/settings/materialicons/48dp/2x/baseline_settings_black_48dp.png" alt="" />
+      </button>
     </header>
     <main>
-      <span id="search-text"></span>
+      <span id="info-text"></span>
       <article id="banner">
         <span>Copied to clipboard!</span>
       </article>
+      <section id="settings" class="hide">
+        <div class="selected">&lt;i class="material-icons"&gt;icon&lt;/i&gt;</div>
+        <div>&lt;span class="material-icons"&gt;icon&lt;/span&gt;</div>
+        <div>icon</div>
+        <span>Select how you would like the icons to be copied to your clipboard.</span>
+      </section>
       <section id="icons"></section>
     </main>
   </body>

@@ -22,12 +22,13 @@ header {
   backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
-  padding: 0 10px;
+  padding: 10px;
   z-index: 10;
 }
 
 input {
   width: 100%;
+  height: 100%;
   padding: 0.5rem;
   border: none;
   outline: none;
@@ -38,12 +39,21 @@ input {
 button {
   cursor: pointer !important;
   margin-left: 0.5rem;
+  height: 30px;
+  width: 30px;
   appearance: none;
   border: none;
   background-color: #222;
   color: #eee;
-  padding: 0.5rem;
-  border-radius: 999px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button img {
+  max-width: 20px;
+  filter: invert(1);
 }
 
 button:hover {
@@ -54,13 +64,13 @@ main {
   margin-top: 50px;
 }
 
-span#search-text {
+span#info-text {
   color: #eee;
   margin-left: 10px;
   font-size: 0.7rem;
 }
 
-section {
+section#icons {
   width: 300px;
   display: flex;
   gap: 10px;
@@ -68,7 +78,7 @@ section {
   padding: 10px;
 }
 
-div {
+section#icons div {
   cursor: pointer;
   width: 48px;
   display: flex;
@@ -81,16 +91,42 @@ div {
   user-select: none;
 }
 
-div:hover > img {
+section#icons div:hover > img {
   opacity: 0.5;
 }
 
-div img {
+section#icons div img {
   max-width: 100%;
 }
-div span {
-  display: block;
-  margin-top: 1rem;
+
+section#settings {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+section#settings div {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 1rem;
+  background-color: #eee;
+  border: 2px solid #eee;
+  user-select: none;
+  font-size: 0.8rem;
+}
+
+section#settings div.selected {
+  border: 2px solid #4bb543;
+}
+
+section#settings span {
+  color: #eee;
+  font-size: 0.7rem;
 }
 
 article#banner {
@@ -103,6 +139,10 @@ article#banner {
   border-radius: 0.5rem;
   backdrop-filter: blur(10px);
   visibility: hidden;
+}
+
+.hide {
+  display: none !important;
 }
 
 .fade {
