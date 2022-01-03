@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const icons = [];
+let settings = 'i';
 
 window.addEventListener('DOMContentLoaded', () => {
   const directory = path.join(__dirname, 'assets');
@@ -32,6 +33,39 @@ window.addEventListener('DOMContentLoaded', () => {
   settingsButton.addEventListener('click', () => {
     showSettings();
   });
+
+  handleSavedSettings();
+
+  const copySettings = document.querySelectorAll('.copy-settings');
+  copySettings.forEach((button, index) =>
+    button.addEventListener('click', () => {
+      switch (index) {
+        case 0:
+          localStorage.settings = 'i';
+          copySettings[0].classList.add('selected');
+          copySettings[1].classList.remove('selected');
+          copySettings[2].classList.remove('selected');
+          settings = 'i';
+          break;
+        case 1:
+          localStorage.settings = 'span';
+          copySettings[0].classList.remove('selected');
+          copySettings[1].classList.add('selected');
+          copySettings[2].classList.remove('selected');
+          settings = 'span';
+          break;
+        case 2:
+          localStorage.settings = '';
+          copySettings[0].classList.remove('selected');
+          copySettings[1].classList.remove('selected');
+          copySettings[2].classList.add('selected');
+          settings = '';
+          break;
+        default:
+          break;
+      }
+    })
+  );
 });
 
 function searchImages(directory, folder) {
@@ -84,7 +118,18 @@ function renderIcons(icons) {
     section.appendChild(node);
     node.addEventListener('click', (e) => {
       const icon = e.currentTarget.getAttribute('data-name');
-      const copy = `<i class="material-icons">${icon}</i>`;
+      let copy = '';
+      switch (settings) {
+        case 'i':
+          copy = `<i class="material-icons">${icon}</i>`;
+          break;
+        case 'span':
+          copy = `<span class="material-icons">${icon}</span>`;
+          break;
+        default:
+          copy = icon;
+          break;
+      }
       const proc = require('child_process').spawn('pbcopy');
       proc.stdin.write(copy);
       proc.stdin.end();
@@ -125,4 +170,30 @@ function showSearch() {
   const settingsSection = document.getElementById('settings');
   settingsSection.classList.add('hide');
   iconsSection.classList.remove('hide');
+}
+
+function handleSavedSettings() {
+  if (localStorage.settings === undefined) localStorage.settings = 'i';
+  const copySettings = document.querySelectorAll('.copy-settings');
+  switch (localStorage.settings) {
+    case 'i':
+      copySettings[0].classList.add('selected');
+      copySettings[1].classList.remove('selected');
+      copySettings[2].classList.remove('selected');
+      settings = 'i';
+      break;
+    case 'span':
+      copySettings[0].classList.remove('selected');
+      copySettings[1].classList.add('selected');
+      copySettings[2].classList.remove('selected');
+      settings = 'span';
+      break;
+    case '':
+      copySettings[0].classList.remove('selected');
+      copySettings[1].classList.remove('selected');
+      copySettings[2].classList.add('selected');
+      break;
+    default:
+      break;
+  }
 }
