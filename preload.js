@@ -59,8 +59,7 @@ function getImage(location) {
     if (error) return console.error(error);
     const fileLocation = path.join(imageLocation, file[0]);
     let name = file[0].replace('_black_48dp.png', '');
-    name = name.replace('baseline', '');
-    name = name.replaceAll('_', ' ');
+    name = name.replace('baseline_', '');
     name = name.trim();
     icons.push({ url: fileLocation, name });
   });
@@ -79,7 +78,12 @@ function renderIcons(icons) {
     node.appendChild(img);
     section.appendChild(node);
     node.addEventListener('click', (e) => {
-      console.log(e.currentTarget.getAttribute('data-name'));
+      const icon = e.currentTarget.getAttribute('data-name');
+      const copy = `<i class="material-icons">${icon}</i>`;
+      const proc = require('child_process').spawn('pbcopy');
+      proc.stdin.write(copy);
+      proc.stdin.end();
+      renderBanner();
     });
   });
 }
@@ -92,4 +96,11 @@ function handleSearch(input) {
     }
   });
   renderIcons(search);
+}
+
+function renderBanner() {
+  const banner = document.getElementById('banner');
+  banner.classList.remove('fade');
+  void banner.offsetWidth; // Required to restart a CSS animation
+  banner.classList.add('fade');
 }

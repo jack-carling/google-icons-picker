@@ -54,7 +54,7 @@ main {
   margin-top: 50px;
 }
 
-main span {
+span#search-text {
   color: #eee;
   margin-left: 10px;
   font-size: 0.7rem;
@@ -91,4 +91,41 @@ div img {
 div span {
   display: block;
   margin-top: 1rem;
+}
+
+article#banner {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  color: #eee;
+  font-size: 0.7rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  backdrop-filter: blur(10px);
+  visibility: hidden;
+}
+
+.fade {
+  animation: fade 4s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fade {
+  0% {
+    visibility: visible;
+    opacity: 1;
+  }
+  50% {
+    visibility: visible;
+    opacity: 1;
+  }
+  99% {
+    visibility: visible;
+    opacity: 0;
+  }
+  100% {
+    visibility: hidden;
+    opacity: 0;
+  }
 }
