@@ -1,4 +1,4 @@
-const { app, Tray, BrowserWindow } = require('electron');
+const { app, Tray, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 
 let tray = undefined;
@@ -75,3 +75,7 @@ function showWindow() {
   window.show();
   window.focus();
 }
+
+ipcMain.on('close-application', () => {
+  app.quit();
+});

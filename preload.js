@@ -1,3 +1,4 @@
+const { shell, ipcRenderer } = require('electron');
 const fs = require('fs');
 const path = require('path');
 const icons = [];
@@ -66,6 +67,16 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     })
   );
+
+  const buttonHowToImplement = document.getElementById('button-hti');
+  const buttonQuit = document.getElementById('button-quit');
+
+  buttonHowToImplement.addEventListener('click', () => {
+    shell.openExternal('https://developers.google.com/fonts/docs/material_icons');
+  });
+  buttonQuit.addEventListener('click', () => {
+    ipcRenderer.send('close-application');
+  });
 });
 
 function searchImages(directory, folder) {
